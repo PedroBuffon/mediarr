@@ -74,7 +74,7 @@ services:
     container_name: qbittorrent
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.monitor-only=true
+      - "com.centurylinklabs.watchtower.monitor-only=true"
     volumes:
       - /opt/docker/mediarr/qbittorrent:/config
       - /data:/data
