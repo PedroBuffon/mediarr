@@ -15,13 +15,14 @@ data
     ├── animes
     ├── movies
     ├── series
+
 ## User Permissions
 Using bind mounts (path/to/config:/config) may lead to permissions conflicts between the host operating system and the container. To avoid this problem, we specify the user ID (PUID) and group ID (PGID) to use within the container. This will have your user permission to read and write configuration files, etc.
 
 In this compose file I use PUID=1000 and PGID=1000, as that is generally the default ID's in most Linux systems, but depending on your setup you may need to chage this.
 
-```
 PUID=1000
 PGID=1000
-```
+
 In the example output above, I would need to edit the .env with PGID=1000.
+```
