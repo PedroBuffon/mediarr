@@ -26,6 +26,20 @@ PGID=1000
 
 In the example output above, I would need to edit the .env with PGID=1000.
 ```
+The following is my .env file containing some variables that are used on some or all containers
+```
+PUID=1000
+PGID=1000
+TZ=America/Sao_Paulo
+TP_THEME=dracula
+
+#Falresolver
+LOG_LEVEL=info
+
+#qBittorrent
+WEBUI_PORT=2081
+```
+Change according of use case
 
 You can see at the end of the compose file that there is a config block called networks, see below:
 ```
