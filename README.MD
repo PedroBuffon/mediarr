@@ -26,3 +26,12 @@ PGID=1000
 
 In the example output above, I would need to edit the .env with PGID=1000.
 ```
+
+You can see at the end of the compose file that there is a config block called networks, see below:
+```
+networks:
+  default:
+    # external: true
+    name: mediarr
+```
+This configuration creates a separate network on docker only for the containers in the docker compose so they can "Talk" to each other.
