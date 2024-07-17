@@ -1,0 +1,130 @@
+services:
+
+# Order of Items on each service
+# Host:Container
+
+# image
+# container_name
+# restart
+# environment
+# labels
+# volumes
+# ports
+# env
+
+#####################################
+# ____                              #
+#/ ___|  ___  _ __   __ _ _ __ _ __ #
+#\___ \ / _ \| '_ \ / _` | '__| '__|#
+# ___) | (_) | | | | (_| | |  | |   #
+#|____/ \___/|_| |_|\__,_|_|  |_|   #                                  
+#####################################
+
+  sonarr:
+    image: linuxserver/sonarr:develop
+    container_name: sonarrtest
+    restart: unless-stopped
+    environment:
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
+    labels:
+      - "com.centurylinklabs.watchtower.monitor-only=true"
+    volumes:
+      - /opt/docker/mediarr/sonarr:/config
+      - /data:/data
+    ports:
+      - 8989:8989
+    env_file:
+      - '.env'
+
+####################################
+# ____           _                 #
+#|  _ \ __ _  __| | __ _ _ __ _ __ #
+#| |_) / _` |/ _` |/ _` | '__| '__|#
+#|  _ < (_| | (_| | (_| | |  | |   #
+#|_| \_\__,_|\__,_|\__,_|_|  |_|   #
+####################################
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:radarr
+    labels:
+      - "com.centurylinklabs.watchtower.monitor-only=true"
+    volumes:
+      - /opt/docker/mediarr/radarr:/config
+      - /data:/data
+    ports:
+      - 7878:7878
+    env_file:
+      - '.env'
+
+######################################################
+#       _     _ _   _                            _   #
+#  __ _| |__ (_) |_| |_ ___  _ __ _ __ ___ _ __ | |_ #
+# / _` | '_ \| | __| __/ _ \| '__| '__/ _ \ '_ \| __|#
+#| (_| | |_) | | |_| || (_) | |  | | |  __/ | | | |_ #
+# \__, |_.__/|_|\__|\__\___/|_|  |_|  \___|_| |_|\__|#
+#    |_|                                             #
+######################################################
+
+  qbittorrent:
+    image: linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.monitor-only=true
+    volumes:
+      - /opt/docker/mediarr/qbittorrent:/config
+      - /data:/data
+    ports:
+      - 2081:2081
+      - 6059:6059/udp
+    healthcheck:
+      start_period: 15s
+    env_file:
+      - '.env'
+
+#############################################
+# ____                    _                 #
+#|  _ \ _ __ _____      _| | __ _ _ __ _ __ #
+#| |_) | '__/ _ \ \ /\ / / |/ _` | '__| '__|#
+#|  __/| | | (_) \ V  V /| | (_| | |  | |   #
+#|_|   |_|  \___/ \_/\_/ |_|\__,_|_|  |_|   #
+#############################################
+
+  prowlarr:
+    image: linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:prowlarr
+    volumes:
+      - /opt/docker/mediarr/prowlarr:/config
+    ports:
+      - 9696:9696
+    env_file:
+      - '.env'
+
+###########################################################
+# _____ _                           _                     #
+#|  ___| | __ _ _ __ ___  ___  ___ | |_   _____ _ __ _ __ #
+#| |_  | |/ _` | '__/ _ \/ __|/ _ \| \ \ / / _ \ '__| '__|#
+#|  _| | | (_| | | |  __/\__ \ (_) | |\ V /  __/ |  | |   #
+#|_|   |_|\__,_|_|  \___||___/\___/|_| \_/ \___|_|  |_|   #
+###########################################################
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    ports:
+      - 8191:8191
+    env_file:
+      - '.env'
+
+networks:
+  default:
+    # external: true
+    name: mediarr
