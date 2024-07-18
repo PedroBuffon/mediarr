@@ -71,4 +71,4 @@ labels:
   - "com.centurylinklabs.watchtower.monitor-only=true"
 ```
 
-As i use [Watchtowerr](https://github.com/containrrr/watchtower) for automating Docker container base image updates, i encountered some problems having sonarr or qbit updating they`re images while copying files, so the label makes watchtowerr only notifying the user that there is an update and not updating it automatically.
+As i use [Watchtowerr](https://github.com/containrrr/watchtower) for automating Docker container base image updates, i encountered some corruption in files when updating docker images while sonarr or qbit were copying files, so the label makes watchtowerr only notifying the user that there is an update and not updating it automatically.
