@@ -30,6 +30,8 @@ PGID=1000
 In the example output above, I would need to edit the .env with PGID=1000.
 ```
 
+## .env file
+
 The following is my .env file containing some variables that are used on some or all containers
 
 ```text
@@ -47,6 +49,8 @@ WEBUI_PORT=2081
 
 Change according of use case
 
+## Network
+
 You can see at the end of the compose file that there is a config block called networks, see below:
 
 ```yml
@@ -57,6 +61,8 @@ networks:
 ```
 
 This configuration creates a separate network on docker only for the containers in the docker compose so they can "Talk" to each other.
+
+## Label
 
 You can see on the compose file some of the containers have a label.
 
