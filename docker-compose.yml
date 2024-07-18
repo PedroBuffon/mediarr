@@ -22,7 +22,7 @@ services:
 
   sonarr:
     image: linuxserver/sonarr:develop
-    container_name: sonarrtest
+    container_name: sonarr
     restart: unless-stopped
     environment:
       - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
