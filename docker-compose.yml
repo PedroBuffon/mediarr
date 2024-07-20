@@ -80,6 +80,7 @@ services:
       - /data:/data
     ports:
       - 2081:2081
+      - 6059:6059
       - 6059:6059/udp
     healthcheck:
       start_period: 15s
