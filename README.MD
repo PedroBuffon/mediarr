@@ -38,13 +38,21 @@ The following is my .env file containing some variables that are used on some or
 PUID=1000
 PGID=1000
 TZ=America/Sao_Paulo
-TP_THEME=dracula
 
 #Falresolver
 LOG_LEVEL=info
 
 #qBittorrent
 WEBUI_PORT=2081
+
+#Plex
+PLEXVERSION=docker
+
+#Themes
+TP_THEME=dracula
+THEMESONARR=ghcr.io/themepark-dev/theme.park:sonarr
+THEMERADARR=ghcr.io/themepark-dev/theme.park:radarr
+THEMEPROWLARR=ghcr.io/themepark-dev/theme.park:prowlarr
 ```
 
 Change according of use case

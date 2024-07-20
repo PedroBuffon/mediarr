@@ -3,4 +3,6 @@ prowlarr/
 qbittorrent/
 radarr/
 sonarr/
+tautulli/
+plex/
 .env
