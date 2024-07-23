@@ -64,8 +64,12 @@ You can see at the end of the compose file that there is a config block called n
 ```yml
 networks:
   default:
-    # external: true
     name: mediarr
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24 #IPV4 NETWORK
+        - subnet: 2001:db8:2::/64 #IPV6 NETWORK
 ```
 
 This configuration creates a separate network on docker only for the containers in the docker compose so they can "Talk" to each other.
