@@ -171,3 +171,7 @@ services:
 networks:
   default:
     name: mediarr
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8:2::/64
