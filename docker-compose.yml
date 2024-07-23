@@ -5,6 +5,7 @@ services:
 
 # image
 # container_name
+# hostname
 # restart
 # environment
 # labels
@@ -23,6 +24,7 @@ services:
   sonarr:
     image: linuxserver/sonarr:develop
     container_name: sonarr
+    hostname: sonarr
     restart: unless-stopped
     environment:
       - DOCKER_MODS=${THEMESONARR}
@@ -47,6 +49,7 @@ services:
   radarr:
     image: linuxserver/radarr:latest
     container_name: radarr
+    hostname: radarr
     restart: unless-stopped
     environment:
       - DOCKER_MODS=${THEMERADARR}
@@ -72,6 +75,7 @@ services:
   qbittorrent:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
+    hostname: qbittorrent
     restart: unless-stopped
     labels:
       - "com.centurylinklabs.watchtower.monitor-only=true"
@@ -98,6 +102,7 @@ services:
   prowlarr:
     image: linuxserver/prowlarr:latest
     container_name: prowlarr
+    hostname: prowlarr
     restart: unless-stopped
     environment:
       - DOCKER_MODS=${THEMEPROWLARR}
@@ -119,6 +124,7 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
+    hostname: flaresolverr
     restart: unless-stopped
     ports:
       - 8191:8191
@@ -137,6 +143,7 @@ services:
   plex:
     image: linuxserver/plex:latest
     container_name: plex
+    hostname: plex
     restart: unless-stopped
     network_mode: host
     environment:
@@ -160,6 +167,7 @@ services:
   tautulli:
     image: ghcr.io/tautulli/tautulli:latest
     container_name: tautulli
+    hostname: tautulli
     restart: unless-stopped
     volumes:
       - /opt/docker/mediarr/tautulli:/config
