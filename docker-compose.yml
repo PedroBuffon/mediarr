@@ -182,4 +182,5 @@ networks:
     enable_ipv6: true
     ipam:
       config:
-        - subnet: 2001:db8:2::/64
+        - subnet: 192.168.10.0/24 #IPV4 NETWORK
+        - subnet: 2001:db8:2::/64 #IPV6 NETWORK
