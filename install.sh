@@ -5,8 +5,8 @@
 echo "THIS SCRIPT IS STILL IN DEVELOPMENT. DON'T USE IT IF YOU DON'T KNOW WHAT YOU'RE DOING"
 
 # Check if the script is being run as root
-if [ "$(whoami)" != "root" ]; then
-    echo "This script needs sudo to work. Please run as root or use sudo."
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script needs to be run as root. Please use sudo."
     exit 1
 fi
 
@@ -20,7 +20,7 @@ install_docker() {
     systemctl enable --now docker
 
     read -p "Do you want to be added to the docker group? (y/n): " add_to_group
-    if [[ $add_to_group =~ ^[Yy]$ ]]; then
+    if [ "$add_to_group" = "y" ] || [ "$add_to_group" = "Y" ]; then
         usermod -aG docker "$SUDO_USER"
         echo "You have been added to the docker group."
         echo "Please log out and back in for the changes to take effect, and run the script again."
@@ -29,19 +29,19 @@ install_docker() {
 }
 
 # Check for Docker Compose command
-if command -v docker-compose &> /dev/null; then
+if command -v docker-compose >/dev/null 2>&1; then
     compose_cmd="docker-compose"
-elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
+elif command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
     compose_cmd="docker compose"
 else
     echo "Docker Compose is not installed."
     # Ask if the user wants to install Docker
     read -p "Do you want to install Docker? (y/n): " install_docker_choice
-    if [[ $install_docker_choice =~ ^[Yy]$ ]]; then
+    if [ "$install_docker_choice" = "y" ] || [ "$install_docker_choice" = "Y" ]; then
         install_docker
-        if command -v docker-compose &> /dev/null; then
+        if command -v docker-compose >/dev/null 2>&1; then
             compose_cmd="docker-compose"
-        elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
+        elif command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
             compose_cmd="docker compose"
         else
             echo "Docker Compose installation failed. Please check the installation process."
@@ -73,7 +73,7 @@ fi
 
 # Ask if the user wants to change the UID and GID for the mediarr stack
 read -p "Do you want to change the UID and GID for the mediarr stack? (default: 1000) (y/n): " change_uid_gid
-if [[ $change_uid_gid =~ ^[Yy]$ ]]; then
+if [ "$change_uid_gid" = "y" ] || [ "$change_uid_gid" = "Y" ]; then
     read -p "Enter the UID for mediarr (default: 1000): " uid
     uid=${uid:-1000}
     read -p "Enter the GID for mediarr (default: 1000): " gid
@@ -86,12 +86,12 @@ fi
 
 # Pull Docker Compose images
 echo "Pulling Docker Compose images..."
-sudo $compose_cmd pull
+$compose_cmd pull
 
 # Ask if the user wants to start the Docker stack
 read -p "Do you want to start the Docker stack? (y/n): " start_stack
-if [[ $start_stack =~ ^[Yy]$ ]]; then
-    sudo $compose_cmd up -d
+if [ "$start_stack" = "y" ] || [ "$start_stack" = "Y" ]; then
+    $compose_cmd up -d
     echo "Stack started"
     clear
 fi
