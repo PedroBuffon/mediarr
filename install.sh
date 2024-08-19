@@ -4,6 +4,12 @@
 
 echo "THIS SCRIPT IS STILL IN DEVELOPMENT, DONT USE IT IF YOU DONT KNOW WHAT YOURE DOING"
 
+# Check if the script is being run as root
+if [ whoami != 'root' ]; then
+    echo "This script need sudo to work, please run as root or use sudo"
+    exit 1
+fi
+
 # Function to install Docker
 install_docker() {
     echo "Installing Docker..."
@@ -13,15 +19,12 @@ install_docker() {
     echo "Enabling and starting Docker service..."
     sudo systemctl enable --now docker
 
-    # Check if the script is being run as root
     read -p "Do you want to be added to the docker group? (y/n): " add_to_group
     if [[ $add_to_group =~ ^[Yy]$ ]]; then
         sudo usermod -aG docker "$USER"
         echo "You have been added to the docker group."
         echo  "Please log out and back in for the changes to take effect and run the script again."
         exit 1
-    else
-        echo "User not added to docker group, youll need to use it in sudo mode"
     fi
 }
 
