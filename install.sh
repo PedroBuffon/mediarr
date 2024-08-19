@@ -4,6 +4,17 @@
 
 echo "THIS SCRIPT IS STILL IN DEVELOPMENT, DONT USE IT IF YOU DONT KNOW WHAT YOURE DOING"
 
+# Function to install Docker
+install_docker() {
+    echo "Installing Docker..."
+    curl -sSL https://get.docker.com/ | CHANNEL=stable sh
+
+    # Enable and start Docker service
+    echo "Enabling and starting Docker service..."
+    sudo systemctl enable --now docker
+}
+
+# Check for Docker Compose command
 if command -v docker-compose &> /dev/null; then
     compose_cmd="docker-compose"
 elif docker compose version &> /dev/null; then
@@ -11,15 +22,20 @@ elif docker compose version &> /dev/null; then
 else
     echo "Docker Compose is not installed."
     # Ask if the user wants to install docker
-    read -p "Do you want to install docker? (y/n):" install_docker
+    read -p "Do you want to install Docker? (y/n):" install_docker
     if [[ $install_docker =~ ^[Yy]$ ]]; then
-        # Install Docker
-        echo "Installing Docker..."
-        curl -sSL https://get.docker.com/ | CHANNEL=stable sh
-
-        # Enable and start Docker service
-        echo "Enabling and starting Docker service..."
-        sudo systemctl enable --now docker
+        install_docker
+        if command -v docker-compose &> /dev/null; then
+            compose_cmd="docker-compose"
+        elif docker compose version &> /dev/null; then
+            compose_cmd="docker compose"
+        else
+            echo "Docker Compose installation failed. Please check the installation process."
+            exit 1
+        fi
+    else
+        echo "Docker is required to continue. Exiting."
+        exit 1
     fi
 fi
 
