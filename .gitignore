@@ -5,4 +5,7 @@ radarr/
 sonarr/
 tautulli/
 plex/
-.env
+*.env
+*.env.example
+*.env.local
+*.env.staging
