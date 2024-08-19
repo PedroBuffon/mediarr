@@ -12,7 +12,7 @@ else
     echo "Docker Compose is not installed."
     # Ask if the user wants to install docker
     read -p "Do you want to install docker? (y/n):" install_docker
-    if [[ "$install_docker" =~ ^[Yy]$ ]]; then
+    if [[ $install_docker =~ ^[Yy]$ ]]; then
         # Install Docker
         echo "Installing Docker..."
         curl -sSL https://get.docker.com/ | CHANNEL=stable sh
@@ -24,9 +24,9 @@ else
 fi
 
 # Check if the script is being run as root
-if [ `whoami` != 'root' ]; then
+if [ whoami != 'root' ]; then
     read -p "Do you want to be added to the docker group? (y/n): " add_to_group
-    if [[ "$add_to_group" =~ ^[Yy]$ ]]; then
+    if [[ $add_to_group =~ ^[Yy]$ ]]; then
         sudo usermod -aG docker "$USER"
         echo "You have been added to the docker group."
         echo  "Please log out and back in for the changes to take effect and run the script again."
@@ -47,14 +47,14 @@ git clone https://github.com/PedroBuffon/mediarr.git "$directory/mediarr"
 cd "$directory/mediarr" || { echo "Failed to navigate to the repository directory"; exit 1; }
 
 # Update the INSTALLDIR in the .env file if the directory is not the default
-if [ "$directory" != "$default_directory" ]; then
+if [ $directory != $default_directory ]; then
     echo "Updating INSTALLDIR in the .env file..."
     sed -i "s|^INSTALLDIR=.*|INSTALLDIR=$directory|" .env
 fi
 
 # Ask if the user wants to change the UID and GID for the mediarr stack
 read -p "Do you want to change the UID and GID for the mediarr stack? (default: 1000) (y/n): " change_uid_gid
-if [[ "$change_uid_gid" =~ ^[Yy]$ ]]; then
+if [[ $change_uid_gid =~ ^[Yy]$ ]]; then
     read -p "Enter the UID for mediarr (default: 1000): " uid
     uid=${uid:-1000}
     read -p "Enter the GID for mediarr (default: 1000): " gid
@@ -71,7 +71,7 @@ sudo $compose_cmd pull
 
 # Ask if the user if it wants to start the docker stack
 read -p "Do you want to start the docker stack? " start_stack
-if [[ "$start_stack" =~ ^[Yy]$ ]]; then
+if [[ $start_stack =~ ^[Yy]$ ]]; then
     sudo $compose_cmd up -d
     echo "Stack started"
     clear
