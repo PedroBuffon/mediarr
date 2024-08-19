@@ -23,7 +23,7 @@ else
     echo "Docker Compose is not installed."
     # Ask if the user wants to install docker
     read -p "Do you want to install Docker? (y/n):" install_docker
-    if [[ $install_docker =~ ^[Yy]$ ]]; then
+    if [[ "$install_docker" =~ ^[Yy]$ ]]; then
         install_docker
         if command -v docker-compose &> /dev/null; then
             compose_cmd="docker-compose"
@@ -75,7 +75,7 @@ if [[ $change_uid_gid =~ ^[Yy]$ ]]; then
     uid=${uid:-1000}
     read -p "Enter the GID for mediarr (default: 1000): " gid
     gid=${gid:-1000}
-    
+
     echo "Updating UID and GID in the .env file..."
     sed -i "s/^PUID=.*/PUID=$uid/" .env
     sed -i "s/^PGID=.*/PGID=$gid/" .env
