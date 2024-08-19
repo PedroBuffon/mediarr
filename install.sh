@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Determine if Docker is installed if not installed use the default installation method from https://docs.docker.com/compose/install/
+# Determine if Docker is installed. If not installed, use the default installation method from https://docs.docker.com/compose/install/
 
-echo "THIS SCRIPT IS STILL IN DEVELOPMENT, DONT USE IT IF YOU DONT KNOW WHAT YOURE DOING"
+echo "THIS SCRIPT IS STILL IN DEVELOPMENT. DON'T USE IT IF YOU DON'T KNOW WHAT YOU'RE DOING"
 
 # Check if the script is being run as root
-if [ whoami != 'root' ]; then
-    echo "This script need sudo to work, please run as root or use sudo"
+if [ "$(whoami)" != "root" ]; then
+    echo "This script needs sudo to work. Please run as root or use sudo."
     exit 1
 fi
 
@@ -17,13 +17,13 @@ install_docker() {
 
     # Enable and start Docker service
     echo "Enabling and starting Docker service..."
-    sudo systemctl enable --now docker
+    systemctl enable --now docker
 
     read -p "Do you want to be added to the docker group? (y/n): " add_to_group
     if [[ $add_to_group =~ ^[Yy]$ ]]; then
-        sudo usermod -aG docker "$USER"
+        usermod -aG docker "$SUDO_USER"
         echo "You have been added to the docker group."
-        echo  "Please log out and back in for the changes to take effect and run the script again."
+        echo "Please log out and back in for the changes to take effect, and run the script again."
         exit 1
     fi
 }
@@ -31,17 +31,17 @@ install_docker() {
 # Check for Docker Compose command
 if command -v docker-compose &> /dev/null; then
     compose_cmd="docker-compose"
-elif docker compose version &> /dev/null; then
+elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
     compose_cmd="docker compose"
 else
     echo "Docker Compose is not installed."
-    # Ask if the user wants to install docker
-    read -p "Do you want to install Docker? (y/n):" install_docker
-    if [[ $install_docker =~ ^[Yy]$ ]]; then
+    # Ask if the user wants to install Docker
+    read -p "Do you want to install Docker? (y/n): " install_docker_choice
+    if [[ $install_docker_choice =~ ^[Yy]$ ]]; then
         install_docker
         if command -v docker-compose &> /dev/null; then
             compose_cmd="docker-compose"
-        elif docker compose version &> /dev/null; then
+        elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
             compose_cmd="docker compose"
         else
             echo "Docker Compose installation failed. Please check the installation process."
@@ -66,7 +66,7 @@ git clone https://github.com/PedroBuffon/mediarr.git "$directory/mediarr"
 cd "$directory/mediarr" || { echo "Failed to navigate to the repository directory"; exit 1; }
 
 # Update the INSTALLDIR in the .env file if the directory is not the default
-if [ $directory != $default_directory ]; then
+if [ "$directory" != "$default_directory" ]; then
     echo "Updating INSTALLDIR in the .env file..."
     sed -i "s|^INSTALLDIR=.*|INSTALLDIR=$directory|" .env
 fi
@@ -88,13 +88,12 @@ fi
 echo "Pulling Docker Compose images..."
 sudo $compose_cmd pull
 
-# Ask if the user if it wants to start the docker stack
-read -p "Do you want to start the docker stack? " start_stack
+# Ask if the user wants to start the Docker stack
+read -p "Do you want to start the Docker stack? (y/n): " start_stack
 if [[ $start_stack =~ ^[Yy]$ ]]; then
     sudo $compose_cmd up -d
     echo "Stack started"
     clear
-
 fi
 
 # Display the ports to the user
