@@ -179,7 +179,9 @@ services:
 networks:
   default:
     name: mediarr
-    enable_ipv6: true
+    enable_ipv6: true # Optional
+# Very optional, only use this if you want to change the network ip inside the docker stack
+# Not really needed, i just added to organize my docker install
     ipam:
       config:
         - subnet: 192.168.10.0/24 #IPV4 NETWORK
