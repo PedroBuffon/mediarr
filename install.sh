@@ -83,7 +83,10 @@ if [ "$change_uid_gid" = "y" ] || [ "$change_uid_gid" = "Y" ]; then
     sed -i "s/^PUID=.*/PUID=$uid/" .env
     sed -i "s/^PGID=.*/PGID=$gid/" .env
     chown $uid:$gid $directory
+else
+    chown 1000:1000 $directory
 fi
+
 
 # Ask if the user wants to change the TZ for the mediarr stack
 read -p "Do you want to change timezone for the mediarr stack? (default: America/Sao_Paulo) (y/n): " change_tz
