@@ -12,6 +12,17 @@ install_docker() {
     # Enable and start Docker service
     echo "Enabling and starting Docker service..."
     sudo systemctl enable --now docker
+
+    # Check if the script is being run as root
+    read -p "Do you want to be added to the docker group? (y/n): " add_to_group
+    if [[ $add_to_group =~ ^[Yy]$ ]]; then
+        sudo usermod -aG docker "$USER"
+        echo "You have been added to the docker group."
+        echo  "Please log out and back in for the changes to take effect and run the script again."
+        exit 1
+    else
+        echo "User not added to docker group, youll need to use it in sudo mode"
+    fi
 }
 
 # Check for Docker Compose command
@@ -35,17 +46,6 @@ else
         fi
     else
         echo "Docker is required to continue. Exiting."
-        exit 1
-    fi
-fi
-
-# Check if the script is being run as root
-if [[ whoami != 'root' ]]; then
-    read -p "Do you want to be added to the docker group? (y/n): " add_to_group
-    if [[ $add_to_group =~ ^[Yy]$ ]]; then
-        sudo usermod -aG docker "$USER"
-        echo "You have been added to the docker group."
-        echo  "Please log out and back in for the changes to take effect and run the script again."
         exit 1
     fi
 fi
