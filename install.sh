@@ -99,7 +99,7 @@ if [ "$change_tz" = "y" ] || [ "$change_tz" = "Y" ]; then
 fi
 
 # Ask if the user wants to change the HOSTDATA and CONTAINERDATA for the mediarr stack
-read -p "Do you want to change the HOSTDATA and CONTAINERDATA for the mediarr stack,This is for media files on the Host and Container? (default: /data) (y/n): " change_data
+read -p "Do you want to change the HOSTDATA and CONTAINERDATA for the mediarr stack? This is were your media files are on the Host and Container (default: /data) (y/n): " change_data
 if [ "$change_data" = "y" ] || [ "$change_data" = "Y" ]; then
     read -p "Enter the HOSTDATA for mediarr (default: /data): " hostdata
     hostdata=${hostdata:-/data}
