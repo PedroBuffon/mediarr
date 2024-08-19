@@ -11,7 +11,7 @@ elif docker compose version &> /dev/null; then
 else
     echo "Docker Compose is not installed."
     # Ask if the user wants to install docker
-    read -p "Do you want to install docker?" install_docker
+    read -p "Do you want to install docker? (y/n):" install_docker
     if [[ "$install_docker" =~ ^[Yy]$ ]]; then
         # Install Docker
         echo "Installing Docker..."
@@ -24,11 +24,13 @@ else
 fi
 
 # Check if the script is being run as root
-if [ "$EUID" -ne 0 ]; then
+if [[ $EUID -ne 0 ]]; then
     read -p "Do you want to be added to the docker group? (y/n): " add_to_group
     if [[ "$add_to_group" =~ ^[Yy]$ ]]; then
         sudo usermod -aG docker "$USER"
-        echo "You have been added to the docker group. Please log out and back in for the changes to take effect."
+        echo "You have been added to the docker group."
+        echo  "Please log out and back in for the changes to take effect and run the script again."
+        exit 1
     fi
 fi
 
