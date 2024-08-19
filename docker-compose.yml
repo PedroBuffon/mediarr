@@ -31,8 +31,8 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.monitor-only=true"
     volumes:
-      - /opt/docker/mediarr/sonarr:/config
-      - /data:/data
+      - $INSTALLDIR/mediarr/sonarr:/config
+      - $HOSTDATA:$CONTAINERDATA
     ports:
       - 8989:8989
     env_file:
@@ -56,8 +56,8 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.monitor-only=true"
     volumes:
-      - /opt/docker/mediarr/radarr:/config
-      - /data:/data
+      - $INSTALLDIR/mediarr/radarr:/config
+      - $HOSTDATA:$CONTAINERDATA
     ports:
       - 7878:7878
     env_file:
@@ -80,8 +80,8 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.monitor-only=true"
     volumes:
-      - /opt/docker/mediarr/qbittorrent:/config
-      - /data:/data
+      - $INSTALLDIR/mediarr/qbittorrent:/config
+      - $HOSTDATA:$CONTAINERDATA
     ports:
       - 2081:2081
       - 6059:6059
@@ -107,7 +107,7 @@ services:
     environment:
       - DOCKER_MODS=${THEMEPROWLARR}
     volumes:
-      - /opt/docker/mediarr/prowlarr:/config
+      - $INSTALLDIR/mediarr/prowlarr:/config
     ports:
       - 9696:9696
     env_file:
@@ -151,8 +151,8 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.monitor-only=true"
     volumes:
-      - /opt/docker/mediarr/plex:/config
-      - /data:/data
+      - $INSTALLDIR/mediarr/plex:/config
+      - $HOSTDATA:$CONTAINERDATA
     env_file:
       - '.env'
 
@@ -170,7 +170,7 @@ services:
     hostname: tautulli
     restart: unless-stopped
     volumes:
-      - /opt/docker/mediarr/tautulli:/config
+      - $INSTALLDIR/mediarr/tautulli:/config
     ports:
       - 8181:8181
     env_file:
