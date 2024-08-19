@@ -24,7 +24,7 @@ else
 fi
 
 # Check if the script is being run as root
-if [[ $EUID -ne 0 ]]; then
+if [ `whoami` != 'root' ]; then
     read -p "Do you want to be added to the docker group? (y/n): " add_to_group
     if [[ "$add_to_group" =~ ^[Yy]$ ]]; then
         sudo usermod -aG docker "$USER"
