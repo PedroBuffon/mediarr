@@ -82,6 +82,7 @@ if [ "$change_uid_gid" = "y" ] || [ "$change_uid_gid" = "Y" ]; then
     echo "Updating UID and GID in the .env file..."
     sed -i "s/^PUID=.*/PUID=$uid/" .env
     sed -i "s/^PGID=.*/PGID=$gid/" .env
+    chown $uid:$gid $directory
 fi
 
 # Ask if the user wants to change the TZ for the mediarr stack
