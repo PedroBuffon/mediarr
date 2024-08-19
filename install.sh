@@ -55,7 +55,7 @@ fi
 
 # Prompt for a directory to clone the repository
 default_directory="/opt/docker"
-read -p "Enter the directory where you want to clone mediarr (default: $default_directory): " directory
+read -p "Enter the FULL DIRECTORY PATH where you want to clone mediarr (default: $default_directory): " directory
 directory=${directory:-$default_directory}
 
 # Clone the repository
@@ -82,6 +82,29 @@ if [ "$change_uid_gid" = "y" ] || [ "$change_uid_gid" = "Y" ]; then
     echo "Updating UID and GID in the .env file..."
     sed -i "s/^PUID=.*/PUID=$uid/" .env
     sed -i "s/^PGID=.*/PGID=$gid/" .env
+fi
+
+# Ask if the user wants to change the TZ for the mediarr stack
+read -p "Do you want to change timezone for the mediarr stack? (default: America/Sao_Paulo) (y/n): " change_tz
+if [ "$change_tz" = "y" ] || [ "$change_tz" = "Y" ]; then
+    read -p "Enter the TZ for mediarr (default: America/Sao_Paulo): " uid
+    tz=${tz:-America/Sao_Paulo}
+
+    echo "Updating UID and GID in the .env file..."
+    sed -i "s/^TZ=.*/TZ=$tz/" .env
+fi
+
+# Ask if the user wants to change the HOSTDATA and CONTAINERDATA for the mediarr stack
+read -p "Do you want to change the HOSTDATA and CONTAINERDATA for the mediarr stack,This is for media files on the Host and Container? (default: /data) (y/n): " change_data
+if [ "$change_data" = "y" ] || [ "$change_data" = "Y" ]; then
+    read -p "Enter the HOSTDATA for mediarr (default: /data): " hostdata
+    hostdata=${hostdata:-/data}
+    read -p "Enter the CONTAINERDATA for mediarr (default: /data): " containerdata
+    containerdata=${containerdata:-/data}
+
+    echo "Updating HOSTDATA and CONTAINERDATA in the .env file..."
+    sed -i "s/^HOSTDATA=.*/HOSTDATA=$uid/" .env
+    sed -i "s/^CONTAINERDATA=.*/CONTAINERDATA=$gid/" .env
 fi
 
 # Pull Docker Compose images
