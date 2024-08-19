@@ -82,9 +82,9 @@ if [ "$change_uid_gid" = "y" ] || [ "$change_uid_gid" = "Y" ]; then
     echo "Updating UID and GID in the .env file..."
     sed -i "s/^PUID=.*/PUID=$uid/" .env
     sed -i "s/^PGID=.*/PGID=$gid/" .env
-    chown $uid:$gid $directory
+    chown -R $uid:$gid $directory/mediarr
 else
-    chown 1000:1000 $directory
+    chown -R 1000:1000 $directory/mediarr
 fi
 
 
