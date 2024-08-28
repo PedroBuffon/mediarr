@@ -71,6 +71,9 @@ Change according of use case
 
 ## Network
 
+Very optional, only use this if you want to change the network ip inside the docker stack
+Not really needed, i just added to organize my docker install
+
 You can see at the end of the compose file that there is a config block called networks, see below:
 
 ```yml
