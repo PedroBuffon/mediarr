@@ -1,7 +1,7 @@
 # Self-Hosted Media Server
 
 This is currently a work in progress. Please refer to the [Servarr Docker Setup](https://wiki.servarr.com/docker-guide) for more details on installing the stack.<br>
-For installing docker you can run the bellow code that will install docker by itfself or you can refer to [Oficial Docker Setup](https://docs.docker.com/engine/install)
+For installing docker you can run the bellow code that will install docker by itself or you can refer to [Oficial Docker Setup](https://docs.docker.com/engine/install)
 
 ## Basic Installation
 
