@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Determine if Docker is installed. If not installed, use the default installation method from https://docs.docker.com/compose/install/
-
 echo "THIS SCRIPT IS STILL IN DEVELOPMENT. DON'T USE IT IF YOU DON'T KNOW WHAT YOU'RE DOING"
 
 # Check if the script is being run as root
@@ -11,11 +9,11 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 # Checks if curl is installed
-if !command -v curl >/dev/null 2>&1; then
+if ! command -v curl >/dev/null 2>&1; then
     read -p "Curl is required to continue, do you want to install it? (y/n): " install_curl
     if [ "$install_curl" = "y" ] || [ "$install_curl" = "Y" ]; then
         apt-get install curl -y
-        if !command -v curl >/dev/null 2>&1; then
+        if ! command -v curl >/dev/null 2>&1; then
             echo "Curl installation failed. Please check the installation process."
             exit 1
         fi
@@ -28,11 +26,11 @@ else
 fi
 
 # Checks if git is installed
-if !command -v git >/dev/null 2>&1; then
+if ! command -v git >/dev/null 2>&1; then
     read -p "Git is required to continue, do you want to install it? (y/n): " install_git
     if [ "$install_git" = "y" ] || [ "$install_git" = "Y" ]; then
         apt-get install git -y
-        if !command -v git >/dev/null 2>&1; then
+        if ! command -v git >/dev/null 2>&1; then
             echo "Git installation failed. Please check the installation process."
             exit 1
         fi
