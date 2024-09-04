@@ -10,6 +10,23 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+# Checks if curl is installed
+if !command -v curl >/dev/null 2>&1; then
+    read -p "Curl is required to continue, do you want to install it? (y/n): " install_curl
+    if [ "$install_curl" = "y" ] || [ "$install_curl" = "Y" ]; then
+        apt-get install curl -y
+        if !command -v curl >/dev/null 2>&1; then
+            echo "Curl installation failed. Please check the installation process."
+            exit 1
+        fi
+    else
+        echo "Curl is required to continue. Exiting."
+        exit 1
+    fi
+else
+    echo "Curl is installed. Continuing."
+fi
+
 # Function to install Docker
 install_docker() {
     echo "Installing Docker..."
@@ -76,8 +93,21 @@ read -p "Do you want to change the UID and GID for the mediarr stack? (default: 
 if [ "$change_uid_gid" = "y" ] || [ "$change_uid_gid" = "Y" ]; then
     read -p "Enter the UID for mediarr (default: 1000): " uid
     uid=${uid:-1000}
+
+    # Check if the UID exists
+    if ! getent passwd "$uid" > /dev/null; then
+        echo "Error: UID $uid does not exist on this system."
+        exit 1
+    fi
+
     read -p "Enter the GID for mediarr (default: 1000): " gid
     gid=${gid:-1000}
+
+    # Check if the GID exists
+    if ! getent group "$gid" > /dev/null; then
+        echo "Error: GID $gid does not exist on this system."
+        exit 1
+    fi
 
     echo "Updating UID and GID in the .env file..."
     sed -i "s/^PUID=.*/PUID=$uid/" .env
@@ -123,13 +153,16 @@ if [ "$start_stack" = "y" ] || [ "$start_stack" = "Y" ]; then
     clear
 fi
 
+# Get the local IP address
+local_ip=$(hostname -I | awk '{print $1}')
+
 # Display the ports to the user
 echo "Setup completed."
 echo "Services will be available at the following ports:"
-echo "Sonarr: 8989"
-echo "Radarr: 7878"
-echo "Prowlarr: 9696"
-echo "qBittorrent: 2081"
-echo "Plex: 32400"
-echo "Tautulli: 8181"
+echo "Sonarr: $local_ip:8989"
+echo "Radarr: $local_ip:7878"
+echo "Prowlarr: $local_ip:9696"
+echo "qBittorrent: $local_ip:2081"
+echo "Plex: $local_ip:32400"
+echo "Tautulli: $local_ip:8181"
 echo "Ports can be modified in the docker-compose.yml file"
