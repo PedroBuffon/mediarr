@@ -27,6 +27,23 @@ else
     echo "Curl is installed. Continuing."
 fi
 
+# Checks if git is installed
+if !command -v git >/dev/null 2>&1; then
+    read -p "Git is required to continue, do you want to install it? (y/n): " install_git
+    if [ "$install_git" = "y" ] || [ "$install_curl" = "Y" ]; then
+        apt-get install git -y
+        if !command -v git >/dev/null 2>&1; then
+            echo "Git installation failed. Please check the installation process."
+            exit 1
+        fi
+    else
+        echo "Git is required to continue. Exiting."
+        exit 1
+    fi
+else
+    echo "Git is installed. Continuing."
+fi
+
 # Function to install Docker
 install_docker() {
     echo "Installing Docker..."
@@ -73,11 +90,15 @@ fi
 # Prompt for a directory to clone the repository
 default_directory="/opt/docker"
 read -p "Enter the FULL DIRECTORY PATH where you want to clone mediarr (default: $default_directory): " directory
+directory=${directory%/}  # Remove trailing slash if present
 directory=${directory:-$default_directory}
 
 # Clone the repository
 echo "Cloning the mediarr repository..."
-git clone https://github.com/PedroBuffon/mediarr.git "$directory/mediarr"
+if ! git clone https://github.com/PedroBuffon/mediarr.git "$directory/mediarr"; then
+    echo "Failed to clone the repository."
+    exit 1
+fi
 
 # Navigate to the repository directory
 cd "$directory/mediarr" || { echo "Failed to navigate to the repository directory"; exit 1; }
@@ -119,12 +140,12 @@ fi
 
 
 # Ask if the user wants to change the TZ for the mediarr stack
-read -p "Do you want to change timezone for the mediarr stack? (default: America/Sao_Paulo) (y/n): " change_tz
+read -p "Do you want to change the timezone for the mediarr stack? (default: America/Sao_Paulo) (y/n): " change_tz
 if [ "$change_tz" = "y" ] || [ "$change_tz" = "Y" ]; then
-    read -p "Enter the TZ for mediarr (default: America/Sao_Paulo): " uid
+    read -p "Enter the TZ for mediarr (default: America/Sao_Paulo): " tz
     tz=${tz:-America/Sao_Paulo}
 
-    echo "Updating UID and GID in the .env file..."
+    echo "Updating TZ in the .env file..."
     sed -i "s/^TZ=.*/TZ=$tz/" .env
 fi
 
