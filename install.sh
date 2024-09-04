@@ -30,7 +30,7 @@ fi
 # Checks if git is installed
 if !command -v git >/dev/null 2>&1; then
     read -p "Git is required to continue, do you want to install it? (y/n): " install_git
-    if [ "$install_git" = "y" ] || [ "$install_curl" = "Y" ]; then
+    if [ "$install_git" = "y" ] || [ "$install_git" = "Y" ]; then
         apt-get install git -y
         if !command -v git >/dev/null 2>&1; then
             echo "Git installation failed. Please check the installation process."
