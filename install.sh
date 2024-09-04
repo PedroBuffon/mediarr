@@ -8,6 +8,14 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+# Update package list
+if apt-get update; then
+    echo "Package list updated successfully."
+else
+    echo "Failed to update package list."
+    exit 1
+fi
+
 # Checks if curl is installed
 if ! command -v curl >/dev/null 2>&1; then
     read -p "Curl is required to continue, do you want to install it? (y/n): " install_curl
