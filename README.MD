@@ -95,7 +95,7 @@ You can see on the compose file some of the containers have a label.
 
 ```yml
 labels:
-  - "com.centurylinklabs.watchtower.monitor-only=true"
+  - "com.centurylinklabs.watchtower.enable=false"
 ```
 
 As i use [Watchtowerr](https://github.com/containrrr/watchtower) for automating Docker container base image updates, i encountered some corruption in files when updating docker images while sonarr or qbit were copying files, so the label makes watchtowerr only notifying the user that there is an update and not updating it automatically.

@@ -29,7 +29,7 @@ services:
     environment:
       - DOCKER_MODS=${THEMESONARR}
     labels:
-      - "com.centurylinklabs.watchtower.monitor-only=true"
+      - "com.centurylinklabs.watchtower.enable=false"
     volumes:
       - $INSTALLDIR/mediarr/sonarr:/config
       - $HOSTDATA:$CONTAINERDATA
@@ -54,7 +54,7 @@ services:
     environment:
       - DOCKER_MODS=${THEMERADARR}
     labels:
-      - "com.centurylinklabs.watchtower.monitor-only=true"
+      - "com.centurylinklabs.watchtower.enable=false"
     volumes:
       - $INSTALLDIR/mediarr/radarr:/config
       - $HOSTDATA:$CONTAINERDATA
@@ -78,7 +78,7 @@ services:
     hostname: qbittorrent
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.monitor-only=true"
+      - "com.centurylinklabs.watchtower.enable=false"
     volumes:
       - $INSTALLDIR/mediarr/qbittorrent:/config
       - $HOSTDATA:$CONTAINERDATA
@@ -104,6 +104,8 @@ services:
     container_name: prowlarr
     hostname: prowlarr
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     environment:
       - DOCKER_MODS=${THEMEPROWLARR}
     volumes:
@@ -149,7 +151,7 @@ services:
     environment:
       - VERSION=${PLEXVERSION}
     labels:
-      - "com.centurylinklabs.watchtower.monitor-only=true"
+      - "com.centurylinklabs.watchtower.enable=false"
     volumes:
       - $INSTALLDIR/mediarr/plex:/config
       - $HOSTDATA:$CONTAINERDATA
