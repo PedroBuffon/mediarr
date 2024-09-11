@@ -21,7 +21,7 @@ This guide will help you set up Sonarr with a dedicated root folder, series type
 - Select the **Root Folder** you created for anime.
 - Set the **Series Type** to **Anime**.
 
-6; Save your changes.
+6. Save your changes.
 
 ## Step 3: Configure qBittorrent for Anime Downloads
 
