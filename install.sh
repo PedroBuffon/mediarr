@@ -95,7 +95,7 @@ fi
 
 # Prompt for a directory to clone the repository
 default_directory="/opt/docker"
-read -p "Enter the FULL DIRECTORY PATH where you want to clone mediarr (default: $default_directory): " directory
+read -p "Enter the FULL DIRECTORY PATH where you want to clone mediarr, THIS IS WERE CONFIG FILES WILL BE SAVED (default: $default_directory): " directory
 directory=${directory%/}  # Remove trailing slash if present
 directory=${directory:-$default_directory}
 
@@ -110,10 +110,10 @@ fi
 cd "$directory/mediarr" || { echo "Failed to navigate to the repository directory"; exit 1; }
 
 # Update the INSTALLDIR in the .env file if the directory is not the default
-if [ "$directory" != "$default_directory" ]; then
-    echo "Updating INSTALLDIR in the .env file..."
-    sed -i "s|^INSTALLDIR=.*|INSTALLDIR=$directory|" .env
-fi
+# if [ "$directory" != "$default_directory" ]; then
+#     echo "Updating INSTALLDIR in the .env file..."
+#     sed -i "s|^INSTALLDIR=.*|INSTALLDIR=$directory|" .env
+# fi
 
 # Ask if the user wants to change the UID and GID for the mediarr stack
 read -p "Do you want to change the UID and GID for the mediarr stack? (default: 1000) (y/n): " change_uid_gid
