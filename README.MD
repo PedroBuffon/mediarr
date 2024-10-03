@@ -99,3 +99,27 @@ labels:
 ```
 
 As i use [Watchtowerr](https://github.com/containrrr/watchtower) for automating Docker container base image updates, i encountered some corruption in files when updating docker images while sonarr or qbit were copying files, so the label makes watchtowerr only notifying the user that there is an update and not updating it automatically.
+
+### Handling the `.Trash-id` Folder using qBittorrent Version 5.0
+
+If you've recently upgraded qBittorrent to version 5.0 and noticed a folder called `.Trash-id` appearing on your drive, you're not alone.  
+This behavior is caused by the way Sonarr/Radarr and Completed Download Handling work in conjunction with version 5.0.
+
+### Why is the `.Trash-id` Folder Appearing?
+
+In qBittorrent version 5.0, when torrents are marked for deletion and you have **Completed Download Handling** turned on in Sonarr/Radarr,  
+the downloaded torrents are not immediately removed. Instead, they are copied to a `.Trash` folder.  
+This folder holds the "deleted" torrents, which is why you see the `.Trash-id` on your drive.
+
+### How to Change This Behavior
+
+If you're running qBittorrent version 5.0 and want to adjust how torrents are handled when removed, follow these steps:
+
+1. Go to the **Advanced** settings of your torrent client.  
+2. Navigate to **Torrent content removing mode**.  
+3. Change the behavior to suit your preference.
+
+By changing the **Torrent content removing mode**, you can decide how your torrent client handles deleted torrents,  
+preventing them from being moved to the `.Trash-id` folder.
+
+This will help keep your drive clean and avoid unnecessary storage usage.
