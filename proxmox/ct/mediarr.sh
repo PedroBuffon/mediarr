@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/PedroBuffon/mediarr/refs/heads/main/proxmox/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -51,6 +51,21 @@ function update_script() {
         msg_ok "Updated successfully"
     else
         msg_ok "No update required. Radarr is already at v${RELEASE_RADARR}"
+    fi
+
+    if [[ ! -d /var/lib/prowlarr/ ]]; then
+        msg_error "No ${APP} Installation Found!"
+        exit
+    fi
+
+    RELEASE_PROWLARR=$(curl -fsSL https://api.github.com/repos/Prowlarr/Prowlarr/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
+    if [[ "${RELEASE_PROWLARR}" != "$(cat ~/.prowlarr 2>/dev/null)" ]] || [[ ! -f ~/.prowlarr ]]; then
+        rm -rf /opt/Prowlarr
+        fetch_and_deploy_gh_release "prowlarr" "Prowlarr/Prowlarr" "prebuild" "latest" "/opt/Prowlarr" "Prowlarr.master*linux-core-x64.tar.gz"
+        chmod 775 /opt/Prowlarr
+        msg_ok "Successfully updated"
+    else
+        msg_ok "No update required. ${APP} is already at ${RELEASE_PROWLARR}"
     fi
 
     exit
